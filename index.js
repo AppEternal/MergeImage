@@ -12,6 +12,7 @@ let outHeight = config.outputHeight;
 let inputDir = config.inputDir;
 let outputDir = config.outputDir;
 let useAverage = config.useAverage;
+let dynamicHeight = config.dynamicHeight;
 
 const imgFiles = await readdir(path.join(__dirname, inputDir));
 
@@ -35,11 +36,11 @@ if(useAverage){
 
 let cnt = 0;
 for (let i = 0; i < loaded.length; i+=2) {
-    const canvas = createCanvas(outWidth, outHeight)
-    const ctx = canvas.getContext('2d')
+    
     let img_1 = loaded[i]
     let img_2 = loaded[i+1]
 
+    if(dynamicHeight) outHeight = Math.min(img_1.height, img_2.height)
     let adg_1 = (outHeight-img_1.height)
     let img_1_h = img_1.height+adg_1;
     let img_1_w = (adg_1>0)?img_1.width+adg_1:img_1.width+adg_1/2;
@@ -47,8 +48,10 @@ for (let i = 0; i < loaded.length; i+=2) {
     let adg_2 = (outHeight-img_2.height)
     let img_2_h = img_2.height+(outHeight-img_2.height);
     let img_2_w = (adg_2>0)?img_2.width+adg_2:img_2.width+adg_2/2;
+    if(dynamicHeight) outWidth = img_1_w+img_2_w
     
-
+    const canvas = createCanvas(outWidth, outHeight)
+    const ctx = canvas.getContext('2d')
     ctx.drawImage(img_1, 0, 0, img_1_w, img_1_h);
     ctx.drawImage(img_2, (outWidth-img_2_w), 0, img_2_w, img_2_h);
 

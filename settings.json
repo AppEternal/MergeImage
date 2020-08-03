@@ -1,7 +1,8 @@
 {
 	"inputDir":"input",
 	"outputDir":"output",
-	"outputWidth":2850,
+	"outputWidth":3000,
 	"outputHeight":2048,
-	"useAverage": true
+	"useAverage": false,
+	"dynamicHeight":true
 }
